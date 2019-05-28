@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":20,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="因为包含来自美国的技术，ARM（英国）已经要求员工“停止所有与华为及其子公司正在生效的合约、支持及未决约定”  从最近的新闻来看，美国的贸易禁令使得华为公司腹背受敌，ARM彻底暂停与华为合作已成定局，最新款的芯片技术肯定是用不上了，不过华为已经获得了ARMv8的永久授权。但是ARM是什么样的存在？ 为什么对华为有这么大的影响力呢，事实上 ARM处理器 已经一统移动端了。今天就来谈谈 ARM 与">
+<meta name="keywords" content="Android SO兼容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从ARM暂停与华为合作谈起 Android中SO兼容的那些事">
+<meta property="og:url" content="http://youngerdev.com/Android中SO文件使用.html">
+<meta property="og:site_name" content="Younger的个人站点">
+<meta property="og:description" content="因为包含来自美国的技术，ARM（英国）已经要求员工“停止所有与华为及其子公司正在生效的合约、支持及未决约定”  从最近的新闻来看，美国的贸易禁令使得华为公司腹背受敌，ARM彻底暂停与华为合作已成定局，最新款的芯片技术肯定是用不上了，不过华为已经获得了ARMv8的永久授权。但是ARM是什么样的存在？ 为什么对华为有这么大的影响力呢，事实上 ARM处理器 已经一统移动端了。今天就来谈谈 ARM 与">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e1c1b9b32104.jpeg">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05ede59f285026.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e19113650893.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e1b164534030.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e1bda8e24077.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e1b944378415.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05ee064bf31381.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e18f15246561.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e1c632040457.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e1a44a363699.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e159f0b86317.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5cec05e1321ca43637.png">
+<meta property="og:updated_time" content="2019-05-28T00:22:56.444Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从ARM暂停与华为合作谈起 Android中SO兼容的那些事">
+<meta name="twitter:description" content="因为包含来自美国的技术，ARM（英国）已经要求员工“停止所有与华为及其子公司正在生效的合约、支持及未决约定”  从最近的新闻来看，美国的贸易禁令使得华为公司腹背受敌，ARM彻底暂停与华为合作已成定局，最新款的芯片技术肯定是用不上了，不过华为已经获得了ARMv8的永久授权。但是ARM是什么样的存在？ 为什么对华为有这么大的影响力呢，事实上 ARM处理器 已经一统移动端了。今天就来谈谈 ARM 与">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/27/5cec05e1c1b9b32104.jpeg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Younger的个人站点" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://youngerdev.com/Android中SO文件使用.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>从ARM暂停与华为合作谈起 Android中SO兼容的那些事 | Younger的个人站点</title>
+  
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId  : '',
+        xfbml  : true,
+        version: 'v2.10'
+      });
+    };
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/zh_CN/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Younger的个人站点</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">技术人生</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <a href="https://github.com/youngercool" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://youngerdev.com/Android中SO文件使用.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Younger">
+      <meta itemprop="description" content="Android开发">
+      <meta itemprop="image" content="/images/toux.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Younger的个人站点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">从ARM暂停与华为合作谈起 Android中SO兼容的那些事
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-08 23:18:03" itemprop="dateCreated datePublished" datetime="2019-05-08T23:18:03+08:00">2019-05-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-28 08:22:56" itemprop="dateModified" datetime="2019-05-28T08:22:56+08:00">2019-05-28</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/Android中SO文件使用.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="Android中SO文件使用.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">10k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">9 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>因为包含来自美国的技术，ARM（英国）已经要求员工“停止所有与华为及其子公司正在生效的合约、支持及未决约定”</p>
+</blockquote>
+<p>从最近的新闻来看，美国的贸易禁令使得华为公司腹背受敌，ARM彻底暂停与华为合作已成定局，最新款的芯片技术肯定是用不上了，不过华为已经获得了ARMv8的永久授权。但是ARM是什么样的存在？ 为什么对华为有这么大的影响力呢，事实上 ARM处理器 已经一统移动端了。今天就来谈谈 ARM 与 Android SO 的那些事。</p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景:"></a>背景:</h3><p>公司某项目新上功能部分页面使用 weex 来做的，测试过程中发现 weex 页面在某些手机上出现异常，经过排查定位到是 SO 库的问题，下面是这个问题的解决过程的一个记录，希望能对遇到类似问题的同学提供一些帮助。</p>
+<h3 id="什么问题"><a href="#什么问题" class="headerlink" title="什么问题?"></a>什么问题?</h3><p>公司某项目 V1.2.0版本最初上线时，使用的 weex 是官方的 SDK 的接入方式， 接下来 App版本需要把官方的 SDK 替换成我们自己私服上的 SDK（因为私服上有我们针对自己项目需要，自定义了许多控件和公共组件） ，替换后，出现 weex 页面加载异常的问题（白屏）</p>
+<p>报错信息如下：</p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05e1c1b9b32104.jpeg" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e1c1b9b32104.jpeg" alt="so1.jpeg"></a></p>
+<p>我们注意到，上面有一行错误是 invokeInitFramework java.lang.UnsatisfiedLinkError:    见过该错误的开发者都知道，这个是 JNI 相关的错误信息，根据错误信息能看到是 weex 相关的 JNI 调用出了问题，由JNI 又想到了 SO 库文件， 那就引出今天的话题。</p>
+<h3 id="什么是-SO-文件及SO-应用？"><a href="#什么是-SO-文件及SO-应用？" class="headerlink" title="什么是 SO 文件及SO 应用？"></a>什么是 SO 文件及SO 应用？</h3><p>SO（shared object，共享库）是机器可以直接运行的二进制代码</p>
+<ul>
+<li><p>SO 机制让开发者最大化利用已有的 C 和 C++ 代码，达到复用的效果，利用软件世界积累了几十年的优秀代码；</p>
+</li>
+<li><p>SO 是二进制，没有解释编译的开销，用SO实现的功能比纯java实现的功能要快；</p>
+</li>
+<li><p>SO 内存分配不受 Dalivik/ART 的单个应用限制，减少 OOM；</p>
+</li>
+<li><p>相对于java代码，二进制代码的反编译难度更大，一些核心代码可以考虑放在 SO 中。</p>
+</li>
+</ul>
+<p>在Android 中 提到 SO 就不能不提 ABI </p>
+<h3 id="ABI"><a href="#ABI" class="headerlink" title="ABI"></a>ABI</h3><p>应用程序二进制接口（Application Binary Interface）</p>
+<p>定义了其所对应的CPU架构能够执行的二进制文件（特别是.so文件）的格式规范。在 Android 系统上，不同 Android 手机使用不同的 CPU，因此支持不同的指令集。CPU 与指令集的每种组合都有其相应的应用二进制界面（或 ABI）。</p>
+<p>ABI 可以非常精确地定义应用的机器代码在运行时如何与系统交互。 您必须为应用要使用的每个 CPU 架构指定 ABI：armeabi，armeabi-v7a，arm64-v8a，x86，x86_64，mips，mips64；</p>
+<p>目前 Android 共支持七种不同类型的 CPU 架构，分别是：ARMv5，ARMv7 (从2010年起)，x86 (从2011年起)，MIPS (从2012年起)，ARMv8，MIPS64和x86_64 (从2014年起)</p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05ede59f285026.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05ede59f285026.png" alt="so11.png"></a></p>
+<h3 id="SO（CPU）的兼容"><a href="#SO（CPU）的兼容" class="headerlink" title="SO（CPU）的兼容"></a>SO（CPU）的兼容</h3><p>每一个 CPU 架构对应一个 ABI，一个 CPU 属于某一种架构，多核 CPU 属于相同架构才能一起工作，很多设备仅支持一种 CPU 架构。</p>
+<p>如果你要完美兼容所有类型的机型，理论上是要在的 libs 目录下放置各个架构平台的 SO 文件。</p>
+<p>但项目体积也会变得非常庞大。是否一定需要带入这么多SO文件去兼容呢？答案是否定的。</p>
+<p>根据目前Android共支持七种不同类型的CPU架构，其兼容特点可总结如下：</p>
+<blockquote>
+<p>armeabi设备只兼容armeabi；</p>
+</blockquote>
+<blockquote>
+<p>armeabi-v7a设备兼容armeabi-v7a、armeabi；</p>
+</blockquote>
+<blockquote>
+<p>arm64-v8a设备兼容arm64-v8a、armeabi-v7a、armeabi；</p>
+</blockquote>
+<blockquote>
+<p>X86设备兼容X86、armeabi；</p>
+</blockquote>
+<blockquote>
+<p>X86_64设备兼容X86_64、X86、armeabi；</p>
+</blockquote>
+<blockquote>
+<p>mips64设备兼容mips64、mips；</p>
+</blockquote>
+<blockquote>
+<p>mips只兼容mips；</p>
+</blockquote>
+<p>armeabi 的 SO 文件基本上可以说是兼容目前市面上的大部分手机，它能运行在除了mips和mips64的设备上，但在非 armeabi 设备上运行性能会有所损耗；</p>
+<p>64位的CPU架构总能向下兼容其对应的32位指令集，如：x86_64兼容X86，arm64-v8a兼容armeabi-v7a，mips64兼容mips；</p>
+<p>总结成一句话就是， 新的CPU 架构总能向下兼容；</p>
+<p>所以知道这些信息后，查看公司其他项目怎么用的, 发现其他项目, 在 build.gradle 中关于 ndk.abiFilters  都是这样写的：</p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05e19113650893.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e19113650893.png" alt="so2.png"></a></p>
+<p>而这个项目的写法是这样的：</p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05e1b164534030.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e1b164534030.png" alt="so3.png"></a></p>
+<p>区别就是这个 ndk.abiFilters  ， 既然这样写，必定有它的原因， 那就继续找，为什么要这么写，咨询相关的同事，了解到相关路径下的文件是 视频聊天、语音相关的 SO 库。</p>
+<p>那能不能改成只支持 armeabi 或者 他们其中的部分呢。那就模拟这些情况，然后分别打出了这么多包（包的命名有点随意，这不是重点），分别在不同的手机上验证是否能正常加载 weex 。</p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05e1bda8e24077.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e1bda8e24077.png" alt="so4.png"></a></p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05e1b944378415.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e1b944378415.png" alt="so5.png"></a></p>
+<p>经测试发现 armeabi 的和 armeabi +x86 的都可以正常加载 weex 页面，感觉问题这么简单就解决了，但是！！！</p>
+<p>想到去掉这么多东西 会不会影响其他正常功能呢， 那就验证下吧，试了下视频相关功能，果不其然的 app 崩溃了。</p>
+<p>说明上面的方向肯定是有问题，使用工具 Native libs Monitor  查看下Apk 中具体的SO 文件</p>
+<p>首先查看下那些我们常用的App 是怎么做的，微信、QQ、支付宝等等</p>
+<h3 id="其他公司如何适配的"><a href="#其他公司如何适配的" class="headerlink" title="其他公司如何适配的"></a>其他公司如何适配的</h3><ul>
+<li><p>微信（只适配armeabi，有少量 v7a）；</p>
+</li>
+<li><p>qq（只适配armeabi，文件夹下有少量x86）；</p>
+</li>
+<li><p>百度地图（只适配armeabi）；</p>
+</li>
+<li><p>大众点评（只适配armeabi）；</p>
+</li>
+<li><p>google 家 （基本都是 arm64）； </p>
+</li>
+<li><p>支付宝 （基本都是 armeabi 的，2个x86的）；</p>
+</li>
+</ul>
+<p>而且 公司别的项目App 中 用到的 face++ 的人脸识别，身份证识别 也是只提供了armeabi 的SO 文件</p>
+<p>下图是微信的Apk 解压出的情况， 微信的lib下虽然只有armeabi-v7a一个目录，但目录内的文件仍放着v7a和 armeabi架构的SO文件，用于处理兼容带来的某些性能运算问题。</p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05ee064bf31381.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05ee064bf31381.png" alt="so12.png"></a></p>
+<p>看完大公司的适配情况，然后看下我们自己 公司这几个项目，看看到底有什么区别， 还有上面打出的不同的包，相应的 SO 引入情况。</p>
+<p>经过对比发现， 指定不同的 abi 会 在apk 中 打入相应 的文件(前提是 你有这些文件)，这就是一个过滤器，只在包中引入指定的cpu 架构的 SO 文件。</p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05e18f15246561.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e18f15246561.png" alt="so6.png"></a></p>
+<p>既然重点是 weex 加载的出了问题，然后就重点查看 weex 相关的 SO 引入情况， 既然官方的可以正常使用， 我们私服上却出了问题，然后对比使用官方的 sdk 集成方式,和我们私服上的集成方式的 SO 库有什么不同；</p>
+<p>如图是集成weex 官方sdk 的 APK<br><a href="https://i.loli.net/2019/05/27/5cec05e1c632040457.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e1c632040457.png" alt="so7.png"></a></p>
+<p>而集成私服上的 sdk 后，只在 armv5中有 libweexjsc.so 而 armv7 中是没有这个问题的。 区别找到了，那就去私服的项目中找原因<br><a href="https://i.loli.net/2019/05/27/5cec05e1a44a363699.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e1a44a363699.png" alt="so8.png"></a></p>
+<p>并没有 armeabi-v7a 的文件，相应的 lib下也没有相应的文件夹和文件，按照一样的写法，在这加入 armeabi-v7a 相应的路径，相应的 lib 下，也新建了相应的文件夹，放入相应的文件。重新编译</p>
+<p><a href="https://i.loli.net/2019/05/27/5cec05e159f0b86317.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e159f0b86317.png" alt="so9.png"></a></p>
+<p>再次尝试, 查看 lib 在 arm v7 和 v8a 的手机上,查看 lib 情况,发现, 在都能看到相应的 SO 文件了,</p>
+<p>多部手机尝试， 视频聊天、语音、 weex 都正常、至此 问题得到解决。</p>
+<p>在排查问题的过程中发现，其实这个项目 本来的 build.gradle 文件中的 arm64-v8a 写错了，以前写成了 armeabi-v8a 其实这样是无法使用到 arm64-v8a下的 so 的。</p>
+<p>但是会向下兼容, 使用了 armeabi-v7a 中的文件，也没有报错，其实也是因祸得福，如果写正确的话，weex 在 arm64-v8a 也会加载失败，因为 官方也没有提供这样的一个文件夹和文件。</p>
+<p>但是我们要怎么配置呢？</p>
+<p>从目前移动端CPU市场的份额数据看，ARM架构几乎垄断，所以，除非你的用户很特殊，否则几乎可以不考虑单独编译带入X86、X86_64、mips、mips64架构SO文件。除去这四个架构之后，还要带入armeabi、armeabi-v7a、arm64-v8a 这三个不同类型，这对于一个拥有大量SO文件的应用来说，安装包的体积将会增大不少。</p>
+<h3 id="针对不同平台，如何去适配，如何抉择"><a href="#针对不同平台，如何去适配，如何抉择" class="headerlink" title="针对不同平台，如何去适配，如何抉择"></a>针对不同平台，如何去适配，如何抉择</h3><p>目前主流的Android设备主要是 armeabi-v7a ARMv8 架构的，程序在运行的时候去加载不同平台对应的so，这是较为完美的一种解决方案，但是有时候为了减少包体积的大小，</p>
+<p>不会同时设置 armeabi， armeabi-v7a 和 x86。根据不同的情况，可以进行不同的适配，</p>
+<p>1.只适配 armeabi-v7a，因为目前主流机型是 ARMv7，并且 ARMv8 设备也向下兼容了armeabi-v7a， Facebook、WhatsApp、王者荣耀等就是只适配了armeabi-v7a。（Google play store下载 Native libs Monitor 进行查看）。</p>
+<p>2.只适配 armeabi，因为 ARMv7 、ARMv8 还是 x86 都兼容 armeabi，但是性能都会有些损耗，例如ARMv7 支持硬件浮点运算等没法体现，x86 支持 armeabi 同样具有相应的损耗。</p>
+<p>3.同时适配 armeabi-v7a 和 armeabi，既能够支持所有 ARM 架构，同时又能具有 ARMv7 支持硬件浮点运算等特性，例如Line等应用。</p>
+<p>4.同时适配 x86 和 armeabi，既能支持所有 ARM 架构，又能支持x86架构，唯一的缺点就是没有了ARMv7 支持硬件浮点运算等一系列特性，例如QQ。</p>
+<p>5.同时适配 armeabi， armeabi-v7a 和 x86，在性能方面来说是较为完美的方案，只是APK的大小也会随之变大。</p>
+<p>6.还有其他的一些方案，例如微信只适配了armeabi，但是对于某些需要利用 ARMv7 支持硬件浮点运算等一系列特性的操作，在armeabi目录下存在v7对应的so文件，通过代码判断加载不同的so文件。即达到了减少APK大小的目的，又能达到适配ARMv7等架构以便使用其架构的一些新特性的目的。</p>
+<p>就目前市场份额而言，绝大部分的设备都已经是armeabi-v7a、arm64-v8a，可以考虑只保留armeabi-v7a架构的SO文件，这样能获得更好的性能效果。所以我们的 这个项目选择采用第3种方案；<br><a href="https://i.loli.net/2019/05/27/5cec05e1321ca43637.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2019/05/27/5cec05e1321ca43637.png" alt="so10.png"></a></p>
+<p>现在把这个项目中的 ndk.abiFilters 配置成上图所示，几乎覆盖所有机型，weex 能够正常加载，暂时没有发现影响其他功能，这个问题也算是得到解决。在不影响太多性能的情况下，也可以明显减少包的体积。</p>
+<h3 id="总结下常见的-引入-so文件的错误"><a href="#总结下常见的-引入-so文件的错误" class="headerlink" title="总结下常见的 引入.so文件的错误"></a>总结下常见的 引入.so文件的错误</h3><h4 id="1-使用android高版本平台版本编译的-so文件运行在android低版本的设备上"><a href="#1-使用android高版本平台版本编译的-so文件运行在android低版本的设备上" class="headerlink" title="1.使用android高版本平台版本编译的.so文件运行在android低版本的设备上"></a>1.使用android高版本平台版本编译的.so文件运行在android低版本的设备上</h4><p>使用NDK时，你可能会倾向于使用最新的编译平台，但事实上这是错误的，因为NDK平台不是向下兼容的，而是向上兼容的。推荐使用app的minSdkVersion对应的编译平台。</p>
+<p>这也意味着当你引入一个预编译好的.so文件时，你需要检查它编译时所用的平台版本。</p>
+<h4 id="2-没有为每个支持的CPU架构提供对应的-so文件"><a href="#2-没有为每个支持的CPU架构提供对应的-so文件" class="headerlink" title="2.没有为每个支持的CPU架构提供对应的.so文件"></a>2.没有为每个支持的CPU架构提供对应的.so文件</h4><p>arm64-v8a是可以向下兼容的，但前提是你的项目里面没有arm64-v8a的文件夹，如果你有两个文件夹armeabi和arm64-v8a，两个文件夹，armeabi里面有a.so 和 b.so,arm64-v8a里面只有a.so，</p>
+<p>那么arm64-v8a的手机在用到b的时候发现有arm64-v8a的文件夹，发现里面没有b.so，就报错了，</p>
+<p>所以这个时候删掉arm64-v8a文件夹，这个时候手机发现没有适配arm64-v8a，就会直接去找armeabi的so库，或者把 arm64-v8a文件夹 的 b.so补齐。</p>
+<h3 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h3><p><a href="https://zhuanlan.zhihu.com/p/21302804" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/21302804</a></p>
+<p><a href="https://www.zhihu.com/question/36893314/answer/78467097" target="_blank" rel="noopener">https://www.zhihu.com/question/36893314/answer/78467097</a></p>
+<p><a href="https://blog.csdn.net/zophar_development/article/details/84329054" target="_blank" rel="noopener">https://blog.csdn.net/zophar_development/article/details/84329054</a></p>
+<p><a href="https://www.cnblogs.com/janehlp/p/7473240.html" target="_blank" rel="noopener">https://www.cnblogs.com/janehlp/p/7473240.html</a></p>
+<p><a href="https://www.jianshu.com/p/cb05698a1968" target="_blank" rel="noopener">https://www.jianshu.com/p/cb05698a1968</a></p>
+<p><a href="https://www.jianshu.com/p/cb15ba69fa89" target="_blank" rel="noopener">https://www.jianshu.com/p/cb15ba69fa89</a></p>
+<p>等</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Younger 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Younger 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-SO兼容/" rel="tag"># Android SO兼容</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/关于我.html" rel="next" title="关于我">
+                <i class="fa fa-chevron-left"></i> 关于我
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Android中公共代码仓库与私服的使用.html" rel="prev" title="Android中公共代码仓库与私服的使用">
+                Android中公共代码仓库与私服的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/toux.jpg" alt="Younger">
+            
+              <p class="site-author-name" itemprop="name">Younger</p>
+              <p class="site-description motion-element" itemprop="description">Android开发</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么问题"><span class="nav-number">2.</span> <span class="nav-text">什么问题?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-SO-文件及SO-应用？"><span class="nav-number">3.</span> <span class="nav-text">什么是 SO 文件及SO 应用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABI"><span class="nav-number">4.</span> <span class="nav-text">ABI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SO（CPU）的兼容"><span class="nav-number">5.</span> <span class="nav-text">SO（CPU）的兼容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他公司如何适配的"><span class="nav-number">6.</span> <span class="nav-text">其他公司如何适配的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#针对不同平台，如何去适配，如何抉择"><span class="nav-number">7.</span> <span class="nav-text">针对不同平台，如何去适配，如何抉择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结下常见的-引入-so文件的错误"><span class="nav-number">8.</span> <span class="nav-text">总结下常见的 引入.so文件的错误</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-使用android高版本平台版本编译的-so文件运行在android低版本的设备上"><span class="nav-number">8.1.</span> <span class="nav-text">1.使用android高版本平台版本编译的.so文件运行在android低版本的设备上</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-没有为每个支持的CPU架构提供对应的-so文件"><span class="nav-number">8.2.</span> <span class="nav-text">2.没有为每个支持的CPU架构提供对应的.so文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章："><span class="nav-number">9.</span> <span class="nav-text">参考文章：</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Younger</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">12k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">11 分钟</span>
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+  <script>
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66182347";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+  
+  <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://youngerdev.com/Android中SO文件使用.html";
+    this.page.identifier = "Android中SO文件使用.html";
+    this.page.title = '从ARM暂停与华为合作谈起 Android中SO兼容的那些事';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+
+
+</body>
+</html>
