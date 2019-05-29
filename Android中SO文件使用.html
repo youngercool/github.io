@@ -450,7 +450,7 @@
             
                 <span class="post-meta-item-text">评论数：</span>
                 <a href="/Android中SO文件使用.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="Android中SO文件使用.html" itemprop="commentCount"></span>
+                  <span class="post-comments-count valine-comment-count" data-xid="/Android中SO文件使用.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -743,9 +743,6 @@
 
   
     <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-      </div>
     </div>
 
   
@@ -1057,26 +1054,32 @@
 
   
   
-  <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
 
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 <script>
-  var disqus_config = function() {
-    this.page.url = "http://youngerdev.com/Android中SO文件使用.html";
-    this.page.identifier = "Android中SO文件使用.html";
-    this.page.title = '从ARM暂停与华为合作谈起 Android中SO兼容的那些事';
-    };
-  function loadComments() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', '' + +new Date());
-    (d.head || d.body).appendChild(s);
-  }
-  
-    loadComments();
-  
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'b46mgRyg76mHG8YKj2V8zdow-gzGzoHsz',
+    appKey: 'VsAn8tOlQKbWCfvs6R4XoFly',
+    placeholder: '请输入您的留言',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true
+  });
 </script>
-
 
 
 

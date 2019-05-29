@@ -438,7 +438,7 @@
             
                 <span class="post-meta-item-text">评论数：</span>
                 <a href="/Android中公共代码仓库与私服的使用.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="Android中公共代码仓库与私服的使用.html" itemprop="commentCount"></span>
+                  <span class="post-comments-count valine-comment-count" data-xid="/Android中公共代码仓库与私服的使用.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -656,7 +656,7 @@
             
                 <span class="post-meta-item-text">评论数：</span>
                 <a href="/Android中SO文件使用.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="Android中SO文件使用.html" itemprop="commentCount"></span>
+                  <span class="post-comments-count valine-comment-count" data-xid="/Android中SO文件使用.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -876,7 +876,7 @@
             
                 <span class="post-meta-item-text">评论数：</span>
                 <a href="/关于我.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="关于我.html" itemprop="commentCount"></span>
+                  <span class="post-comments-count valine-comment-count" data-xid="/关于我.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1093,7 +1093,7 @@
             
                 <span class="post-meta-item-text">评论数：</span>
                 <a href="/开站顺利.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="开站顺利.html" itemprop="commentCount"></span>
+                  <span class="post-comments-count valine-comment-count" data-xid="/开站顺利.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1499,9 +1499,32 @@
 
   
   
-  <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
 
 
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'b46mgRyg76mHG8YKj2V8zdow-gzGzoHsz',
+    appKey: 'VsAn8tOlQKbWCfvs6R4XoFly',
+    placeholder: '请输入您的留言',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+</script>
 
 
 
