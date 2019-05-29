@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://youngerdev.com/tags/index.html</loc>
+    
+    <lastmod>2019-05-29T15:05:00.893Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://youngerdev.com/Android%E4%B8%ADSO%E6%96%87%E4%BB%B6%E4%BD%BF%E7%94%A8.html</loc>
     
     <lastmod>2019-05-29T14:35:10.505Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://youngerdev.com/%E5%BC%80%E7%AB%99%E9%A1%BA%E5%88%A9.html</loc>
     
     <lastmod>2019-05-29T14:33:33.642Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://youngerdev.com/tags/index.html</loc>
-    
-    <lastmod>2019-05-28T15:28:13.839Z</lastmod>
     
   </url>
   
