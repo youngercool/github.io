@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://youngerdev.com/"/>
-  <updated>2019-05-29T15:34:30.358Z</updated>
+  <updated>2019-05-30T00:22:20.502Z</updated>
   <id>http://youngerdev.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网站优化</title>
+    <link href="http://youngerdev.com/%E7%BD%91%E7%AB%99%E4%BC%98%E5%8C%96.html"/>
+    <id>http://youngerdev.com/网站优化.html</id>
+    <published>2019-05-30T00:11:39.000Z</published>
+    <updated>2019-05-30T00:22:20.502Z</updated>
+    
+    <content type="html"><![CDATA[<p>网站在今年2月份就创建了，但是一直没有怎么优化。最近几天，简单美化了一下<br>现在就把相关的优化网站列一下，希望对读者有点帮助。</p><p><a href="https://www.lixint.me/hexo-blog.html" target="_blank" rel="noopener">Github Pages + Hexo 博客搭建，Next主题个性化修改</a> 有很多链接，包括从创建到优化，还有视频教程。</p><p><a href="https://www.lixint.me/hexo-theme-diy.html" target="_blank" rel="noopener">Hexo博客主题安装及Next主题个性化修改</a> 不得不说，这个对我帮助很大。</p><p><a href="https://yashuning.github.io/2018/06/29/hexo-Next-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/" target="_blank" rel="noopener">hexo - Next 主题添加评论功能</a> 这个是给我们的网站加评论的， 我选择 <strong>Valine</strong> 评论系统 ，我希望可以匿名评论。</p><p>后续还有 seo 优化还没有做，这个会继续更新的。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;网站在今年2月份就创建了，但是一直没有怎么优化。最近几天，简单美化了一下&lt;br&gt;现在就把相关的优化网站列一下，希望对读者有点帮助。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.lixint.me/hexo-blog.html&quot; target=&quot;_blank&quot; r
+      
+    
+    </summary>
+    
+    
+      <category term="hexo" scheme="http://youngerdev.com/tags/hexo/"/>
+    
+      <category term="页面优化" scheme="http://youngerdev.com/tags/%E9%A1%B5%E9%9D%A2%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title>Android中公共代码仓库与私服的使用</title>
@@ -113,11 +139,11 @@
     </summary>
     
     
+      <category term="hexo" scheme="http://youngerdev.com/tags/hexo/"/>
+    
       <category term="网站搭建" scheme="http://youngerdev.com/tags/%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/"/>
     
       <category term="域名购买" scheme="http://youngerdev.com/tags/%E5%9F%9F%E5%90%8D%E8%B4%AD%E4%B9%B0/"/>
-    
-      <category term="hexo" scheme="http://youngerdev.com/tags/hexo/"/>
     
       <category term="github" scheme="http://youngerdev.com/tags/github/"/>
     
