@@ -1,117 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
-
-<url>
-  <loc>https://youngerdev.com/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/archives/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/%E7%BD%91%E7%AB%99%E4%BC%98%E5%8C%96.html</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/Android%E4%B8%AD%E5%85%AC%E5%85%B1%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93%E4%B8%8E%E7%A7%81%E6%9C%8D%E7%9A%84%E4%BD%BF%E7%94%A8.html</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/Android%E4%B8%ADSO%E6%96%87%E4%BB%B6%E4%BD%BF%E7%94%A8.html</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/%E5%85%B3%E4%BA%8E%E6%88%91.html</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/%E5%BC%80%E7%AB%99%E9%A1%BA%E5%88%A9.html</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/index.html</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/Android/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/Android-SO%E5%85%BC%E5%AE%B9/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/Android%E7%A7%81%E6%9C%8D/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/SO/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/arm/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/github/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/hexo/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/namesilo/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/%E5%8D%8E%E4%B8%BA/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/%E5%9F%9F%E5%90%8D%E8%B4%AD%E4%B9%B0/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://youngerdev.com/tags/%E9%A1%B5%E9%9D%A2%E4%BC%98%E5%8C%96/</loc>
-  <lastmod>2019-05-30T15:03:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://youngerdev.com/ListView-%E4%BC%98%E5%8C%96%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93.html</loc>
+    
+    <lastmod>2019-08-11T08:53:22.998Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://youngerdev.com/Android%E4%B8%ADSO%E6%96%87%E4%BB%B6%E4%BD%BF%E7%94%A8.html</loc>
+    
+    <lastmod>2019-05-30T00:24:29.407Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://youngerdev.com/%E5%85%B3%E4%BA%8E%E6%88%91.html</loc>
+    
+    <lastmod>2019-05-30T00:24:24.611Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://youngerdev.com/%E7%BD%91%E7%AB%99%E4%BC%98%E5%8C%96.html</loc>
+    
+    <lastmod>2019-05-30T00:24:17.130Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://youngerdev.com/Android%E4%B8%AD%E5%85%AC%E5%85%B1%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93%E4%B8%8E%E7%A7%81%E6%9C%8D%E7%9A%84%E4%BD%BF%E7%94%A8.html</loc>
+    
+    <lastmod>2019-05-29T15:34:30.358Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://youngerdev.com/tags/index.html</loc>
+    
+    <lastmod>2019-05-29T15:07:09.068Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://youngerdev.com/%E5%BC%80%E7%AB%99%E9%A1%BA%E5%88%A9.html</loc>
+    
+    <lastmod>2019-05-29T14:33:33.642Z</lastmod>
+    
+  </url>
+  
 </urlset>

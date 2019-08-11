@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="网站在今年2月份就创建了，但是一直没有怎么优化。最近几天，简单美化了一下现在就把相关的优化网站列一下，希望对读者有点帮助。 Github Pages + Hexo 博客搭建，Next主题个性化修改 有很多链接，包括从创建到优化，还有视频教程。 Hexo博客主题安装及Next主题个性化修改 不得不说，这个对我帮助很大。 hexo - Next 主题添加评论功能 这个是给我们的网站加评论的， 我选择">
-<meta name="keywords" content="hexo,页面优化">
+  <meta name="description" content="ListView 优化最近在做项目过程中频繁使用列表，今天抽空总结下过程中遇到的问题，下面会有具体对应的解决办法；  1.listView 外套一层ScrollView 的问题，就是listView 只显示一行或者两行， 我发现这个问题在 RecycleView 上也存在， 在RecycleView外套一层 ScrollView也会出现只显示一行的问题，滑动只能在 一行的高度内滑动。这问题下面有具">
+<meta name="keywords" content="Android listView,ListView优化,列表优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网站优化">
-<meta property="og:url" content="http://youngerdev.com/网站优化.html">
+<meta property="og:title" content="ListView 优化及相关问题总结">
+<meta property="og:url" content="http://youngerdev.com/ListView-优化及相关问题总结.html">
 <meta property="og:site_name" content="Younger的个人站点">
-<meta property="og:description" content="网站在今年2月份就创建了，但是一直没有怎么优化。最近几天，简单美化了一下现在就把相关的优化网站列一下，希望对读者有点帮助。 Github Pages + Hexo 博客搭建，Next主题个性化修改 有很多链接，包括从创建到优化，还有视频教程。 Hexo博客主题安装及Next主题个性化修改 不得不说，这个对我帮助很大。 hexo - Next 主题添加评论功能 这个是给我们的网站加评论的， 我选择">
+<meta property="og:description" content="ListView 优化最近在做项目过程中频繁使用列表，今天抽空总结下过程中遇到的问题，下面会有具体对应的解决办法；  1.listView 外套一层ScrollView 的问题，就是listView 只显示一行或者两行， 我发现这个问题在 RecycleView 上也存在， 在RecycleView外套一层 ScrollView也会出现只显示一行的问题，滑动只能在 一行的高度内滑动。这问题下面有具">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-30T00:24:17.130Z">
+<meta property="og:updated_time" content="2019-08-11T08:53:22.998Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="网站优化">
-<meta name="twitter:description" content="网站在今年2月份就创建了，但是一直没有怎么优化。最近几天，简单美化了一下现在就把相关的优化网站列一下，希望对读者有点帮助。 Github Pages + Hexo 博客搭建，Next主题个性化修改 有很多链接，包括从创建到优化，还有视频教程。 Hexo博客主题安装及Next主题个性化修改 不得不说，这个对我帮助很大。 hexo - Next 主题添加评论功能 这个是给我们的网站加评论的， 我选择">
+<meta name="twitter:title" content="ListView 优化及相关问题总结">
+<meta name="twitter:description" content="ListView 优化最近在做项目过程中频繁使用列表，今天抽空总结下过程中遇到的问题，下面会有具体对应的解决办法；  1.listView 外套一层ScrollView 的问题，就是listView 只显示一行或者两行， 我发现这个问题在 RecycleView 上也存在， 在RecycleView外套一层 ScrollView也会出现只显示一行的问题，滑动只能在 一行的高度内滑动。这问题下面有具">
 
 
 
@@ -116,7 +116,7 @@
 
 
 
-  <link rel="canonical" href="http://youngerdev.com/网站优化.html">
+  <link rel="canonical" href="http://youngerdev.com/ListView-优化及相关问题总结.html">
 
 
 
@@ -126,7 +126,7 @@
   };
 </script>
 
-  <title>网站优化 | Younger的个人站点</title>
+  <title>ListView 优化及相关问题总结 | Younger的个人站点</title>
   
   <script>
     window.fbAsyncInit = function() {
@@ -358,7 +358,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://youngerdev.com/网站优化.html">
+    <link itemprop="mainEntityOfPage" href="http://youngerdev.com/ListView-优化及相关问题总结.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Younger">
@@ -375,7 +375,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">网站优化
+          <h2 class="post-title" itemprop="name headline">ListView 优化及相关问题总结
 
               
             
@@ -401,7 +401,7 @@
                 
               
 
-              <time title="创建时间：2019-05-30 08:11:39 / 修改时间：08:24:17" itemprop="dateCreated datePublished" datetime="2019-05-30T08:11:39+08:00">2019-05-30</time>
+              <time title="创建时间：2019-08-11 10:56:37 / 修改时间：16:53:22" itemprop="dateCreated datePublished" datetime="2019-08-11T10:56:37+08:00">2019-08-11</time>
             
 
             
@@ -424,8 +424,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/网站优化.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/网站优化.html" itemprop="commentCount"></span>
+                <a href="/ListView-优化及相关问题总结.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/ListView-优化及相关问题总结.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -433,7 +433,7 @@
 
           
           
-            <span id="/网站优化.html" class="leancloud_visitors" data-flag-title="网站优化">
+            <span id="/ListView-优化及相关问题总结.html" class="leancloud_visitors" data-flag-title="ListView 优化及相关问题总结">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -458,7 +458,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">643</span>
+                <span title="本文字数">11k</span>
               
 
               
@@ -472,7 +472,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">10 分钟</span>
               
             </div>
           
@@ -492,11 +492,58 @@
       
 
       
-        <p>网站在今年2月份就创建了，但是一直没有怎么优化。最近几天，简单美化了一下<br>现在就把相关的优化网站列一下，希望对读者有点帮助。</p>
-<p><a href="https://www.lixint.me/hexo-blog.html" target="_blank" rel="noopener">Github Pages + Hexo 博客搭建，Next主题个性化修改</a> 有很多链接，包括从创建到优化，还有视频教程。</p>
-<p><a href="https://www.lixint.me/hexo-theme-diy.html" target="_blank" rel="noopener">Hexo博客主题安装及Next主题个性化修改</a> 不得不说，这个对我帮助很大。</p>
-<p><a href="https://yashuning.github.io/2018/06/29/hexo-Next-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/" target="_blank" rel="noopener">hexo - Next 主题添加评论功能</a> 这个是给我们的网站加评论的， 我选择 <strong>Valine</strong> 评论系统 ，我希望可以匿名评论。</p>
-<p>后续还有 seo 优化还没有做，这个会继续更新的。</p>
+        <h2 id="ListView-优化"><a href="#ListView-优化" class="headerlink" title="ListView 优化"></a>ListView 优化</h2><p>最近在做项目过程中频繁使用列表，今天抽空总结下过程中遇到的问题，下面会有具体对应的解决办法；</p>
+<ul>
+<li>1.listView 外套一层ScrollView 的问题，就是listView 只显示一行或者两行， 我发现这个问题在 <strong>RecycleView 上也存在</strong>， 在RecycleView外套一层 ScrollView也会出现只显示一行的问题，滑动只能在 一行的高度内滑动。这问题下面有具体解决方案，说下我是怎么解决的吧，因为我要实现的是9宫格的图片展示，本来是用的RecycleView 来实现的，出现了这个问题，我就尝试把recyclerView 换成了GridView 了，因为GridView 本身就支持多行展示，发现就没有这个问题了，套了ScrollView 也正常展示；</li>
+<li><ol start="2">
+<li>也是listView 在嵌套ScrollView 中的问题，在某款三星手机上，这个手机的虚拟按键，可以锁定和解锁定， 发现在切换锁定和解锁定中，会导致原来的多行的图片变成单行， 在别的手机上就没有这个问题， 这个奇怪的现象，最终还是以GridView 替换掉listView 解决的。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>listView 添加 headerView的问题， 需要注意的是 添加进去的 HeaderView 就占据了第0位，所以在使用的 onItemClick 的时候，需要-1， addfooterView的时候可以用 view.getFooterViewsCount() 是否等于0来判断，避免多次添加。</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>由于listView 会复用viewHolder ，所以我们在getView 中 显示隐藏的设置一定要配套使用，if里有显示，在else 中就要 隐藏。</li>
+</ol>
+</li>
+</ul>
+<h3 id="优化步骤："><a href="#优化步骤：" class="headerlink" title="优化步骤："></a>优化步骤：</h3><h4 id="使用-RecycleView-代替listview"><a href="#使用-RecycleView-代替listview" class="headerlink" title="使用 RecycleView 代替listview"></a>使用 RecycleView 代替listview</h4><ul>
+<li>1.重用ConvertView;</li>
+<li>2.使用View Holder模式；</li>
+<li>3.使用异步线程加载图片（一般都是直接使用图片库加载，如Glide, Picasso）；<h5 id="建议"><a href="#建议" class="headerlink" title="建议:"></a>建议:</h5></li>
+<li>1.在adapter的getView方法中尽可能的减少逻辑判断，特别是耗时的判断；</li>
+<li>2.避免GC</li>
+<li>3.在快速滑动时不要加载图片；</li>
+<li>4.将ListView的scrollingCache和animateCache这两个属性设置为false（默认是true）;</li>
+<li>5.尽可能减少List Item的Layout层次（如可以使用RelativeLayout替换LinearLayout，或使用自定的View代替组合嵌套使用的Layout）</li>
+</ul>
+<h4 id="ListView-嵌套-ScrollView"><a href="#ListView-嵌套-ScrollView" class="headerlink" title="ListView  嵌套 ScrollView"></a>ListView  嵌套 ScrollView</h4><p>Listview不能显示正常的条目，只显示一条或二条</p>
+<p>这是因为：由于listView在scrollView中无法正确计算它的大小, 故只显示一行。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案:"></a>解决方案:</h4><h5 id="1-方法一：重写ListView-覆盖onMeasure-方法"><a href="#1-方法一：重写ListView-覆盖onMeasure-方法" class="headerlink" title="1. 方法一：重写ListView, 覆盖onMeasure()方法"></a>1. 方法一：重写ListView, 覆盖onMeasure()方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">WrapperListView.java:</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WrapperListView</span> <span class="keyword">extends</span> <span class="title">ListView</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WrapperListView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WrapperListView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WrapperListView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WrapperListView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr, <span class="keyword">int</span> defStyleRes)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr, defStyleRes);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写该方法，达到使ListView适应ScrollView的效果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE &gt;&gt; <span class="number">2</span>, MeasureSpec.AT_MOST);</span><br><span class="line">        <span class="keyword">super</span>.onMeasure(widthMeasureSpec, expandSpec);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-方法二：动态设置listview的高度，不需要重写ListView"><a href="#2-方法二：动态设置listview的高度，不需要重写ListView" class="headerlink" title="2.方法二：动态设置listview的高度，不需要重写ListView"></a>2.方法二：动态设置listview的高度，不需要重写ListView</h5><p>只需要在setAdapter之后调用如下方法即可：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setListViewHeightBasedOnChildren</span>(<span class="params">ListView listView</span>)</span> &#123;</span><br><span class="line">        <span class="comment">// 获取ListView对应的Adapter</span></span><br><span class="line">        ListAdapter listAdapter = listView.getAdapter();</span><br><span class="line">        <span class="keyword">if</span> (listAdapter == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> totalHeight = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, len = listAdapter.getCount(); i &lt; len; i++) &#123;</span><br><span class="line">            <span class="comment">// listAdapter.getCount()返回数据项的数目</span></span><br><span class="line">            View listItem = listAdapter.getView(i, <span class="literal">null</span>, listView);</span><br><span class="line">            <span class="comment">// 计算子项View 的宽高</span></span><br><span class="line">            listItem.measure(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">            <span class="comment">// 统计所有子项的总高度</span></span><br><span class="line">            totalHeight += listItem.getMeasuredHeight();</span><br><span class="line">        &#125;</span><br><span class="line">        ViewGroup.LayoutParams <span class="keyword">params</span> = listView.getLayoutParams();</span><br><span class="line">        <span class="keyword">params</span>.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - <span class="number">1</span>));</span><br><span class="line">        <span class="comment">// listView.getDividerHeight()获取子项间分隔符占用的高度</span></span><br><span class="line">        <span class="comment">// params.height最后得到整个ListView完整显示需要的高度</span></span><br><span class="line">        listView.setLayoutParams(<span class="keyword">params</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这时最好给ListView之外嵌套一层LinearLayout，不然有时候这种方法会失效</p>
+<h5 id="3-方法三：在xml文件中，直接将Listview的高度写死"><a href="#3-方法三：在xml文件中，直接将Listview的高度写死" class="headerlink" title="3.方法三：在xml文件中，直接将Listview的高度写死"></a>3.方法三：在xml文件中，直接将Listview的高度写死</h5><p>可以确定的是：这种方式可以改变ListView的高度，但是，还有一个严重的问题就是listview的数据是可变动的，除非你能正确的写出listview的高度，否则这种方式就是个鸡肋。</p>
+<h5 id="4-addHeadView"><a href="#4-addHeadView" class="headerlink" title="4. addHeadView()"></a>4. addHeadView()</h5><p>如果只有数据 layout 完全没有必要嵌套 ScrollView 的.之说以需要嵌套,很多是在listView 头部或者底部多了一部分Layout ,这个时候可以尝试 listView 的 addHeadView() 尝试解决</p>
+<h3 id="在一次显示ListView的界面时，getView会被执行几次？"><a href="#在一次显示ListView的界面时，getView会被执行几次？" class="headerlink" title="在一次显示ListView的界面时，getView会被执行几次？"></a>在一次显示ListView的界面时，getView会被执行几次？</h3><p>比如有5组数据要填充到listView。listView会先调用onMeasure，此时会调用5次getView。然后才调用onLayout，此时又会调用5次getView，这样就重复了。所以导致多次调用getView方法</p>
+<p>的确调用了三遍</p>
+<p>解决办法:</p>
+<p>ListView 的高度 从 wrap_content 改成 match_patent 或者一个固定值,就能减少getview 调用次数 </p>
+<p>或者重写 listView 的onMasure onLayout 方法  赋值 一个变量 检测 是测量还是layout  测量时不加载自己写的那段逻辑</p>
+<h4 id="listview失去焦点怎么处理？"><a href="#listview失去焦点怎么处理？" class="headerlink" title="listview失去焦点怎么处理？"></a>listview失去焦点怎么处理？</h4><p>在listview子布局里面写，可以解决焦点失去的问题<br>android:descendantFocusability=”blocksDescendants”</p>
+<h4 id="ListView-优化-1"><a href="#ListView-优化-1" class="headerlink" title="ListView 优化"></a>ListView 优化</h4><ul>
+<li><p>1.首先，虽然大家都知道，还是提一下，利用好 convertView 来重用 View，切忌每次 getView() 都新建。ListView 的核心原理就是重用 View。ListView 中有一个回收器，Item 滑出界面的时候 View 会回收到这里，需要显示新的 Item 的时候，就尽量重用回收器里面的 View。</p>
+</li>
+<li><p>2.利用好 View Type，例如你的 ListView 中有几个类型的 Item，需要给每个类型创建不同的 View，这样有利于 ListView 的回收，当然类型不能太多</p>
+</li>
+<li>3.尽量让 ItemView 的 Layout 层次结构简单，这是所有 Layout 都必须遵循的</li>
+<li>4.善用自定义 View，自定义 View 可以有效的减小 Layout 的层级，而且对绘制过程可以很好的控制；</li>
+<li>5.尽量能保证 Adapter 的 hasStableIds() 返回 true，这样在 notifyDataSetChanged() 的时候，如果 id 不变，ListView 将不会重新绘制这个 View，达到优化的目的；</li>
+<li>6.每个 Item 不能太高，特别是不要超过屏幕的高度，可以参考 Facebook 的优化方法，把特别复杂的 Item 分解成若干小的 Item，</li>
+<li>7.为了保证 ListView 滑动的流畅性，getView() 中要做尽量少的事情，不要有耗时的操作。特别是滑动的时候不要加载图片，停下来再加载，这个库可以帮助你 Glide：<a href="https://github.com/bumptech/glide" target="_blank" rel="noopener">https://github.com/bumptech/glide</a></li>
+<li>8.使用 RecycleView 代替。 ListView 每次更新数据都要 notifyDataSetChanged()，有些太暴力了。RecycleView 在性能和可定制性上都有很大的改善，推荐使用。</li>
+</ul>
 
       
     </div>
@@ -549,9 +596,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/Android-listView/" rel="tag"># Android listView</a>
           
-            <a href="/tags/页面优化/" rel="tag"># 页面优化</a>
+            <a href="/tags/ListView优化/" rel="tag"># ListView优化</a>
+          
+            <a href="/tags/列表优化/" rel="tag"># 列表优化</a>
           
         </div>
       
@@ -567,8 +616,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Android中公共代码仓库与私服的使用.html" rel="next" title="Android中公共代码仓库与私服的使用">
-                <i class="fa fa-chevron-left"></i> Android中公共代码仓库与私服的使用
+              <a href="/网站优化.html" rel="next" title="网站优化">
+                <i class="fa fa-chevron-left"></i> 网站优化
               </a>
             
           </div>
@@ -576,10 +625,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/ListView-优化及相关问题总结.html" rel="prev" title="ListView 优化及相关问题总结">
-                ListView 优化及相关问题总结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -628,8 +673,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -736,6 +790,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ListView-优化"><span class="nav-number">1.</span> <span class="nav-text">ListView 优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优化步骤："><span class="nav-number">1.1.</span> <span class="nav-text">优化步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-RecycleView-代替listview"><span class="nav-number">1.1.1.</span> <span class="nav-text">使用 RecycleView 代替listview</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#建议"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">建议:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ListView-嵌套-ScrollView"><span class="nav-number">1.1.2.</span> <span class="nav-text">ListView  嵌套 ScrollView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方案"><span class="nav-number">1.1.3.</span> <span class="nav-text">解决方案:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-方法一：重写ListView-覆盖onMeasure-方法"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">1. 方法一：重写ListView, 覆盖onMeasure()方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-方法二：动态设置listview的高度，不需要重写ListView"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">2.方法二：动态设置listview的高度，不需要重写ListView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-方法三：在xml文件中，直接将Listview的高度写死"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">3.方法三：在xml文件中，直接将Listview的高度写死</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-addHeadView"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">4. addHeadView()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在一次显示ListView的界面时，getView会被执行几次？"><span class="nav-number">1.2.</span> <span class="nav-text">在一次显示ListView的界面时，getView会被执行几次？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#listview失去焦点怎么处理？"><span class="nav-number">1.2.1.</span> <span class="nav-text">listview失去焦点怎么处理？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ListView-优化-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">ListView 优化</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
