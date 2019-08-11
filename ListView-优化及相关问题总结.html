@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Younger的个人站点">
 <meta property="og:description" content="ListView 优化最近在做项目过程中频繁使用列表，今天抽空总结下过程中遇到的问题，下面会有具体对应的解决办法；  1.listView 外套一层ScrollView 的问题，就是listView 只显示一行或者两行， 我发现这个问题在 RecycleView 上也存在， 在RecycleView外套一层 ScrollView也会出现只显示一行的问题，滑动只能在 一行的高度内滑动。这问题下面有具">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-11T08:53:22.998Z">
+<meta property="og:updated_time" content="2019-08-11T08:55:49.684Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ListView 优化及相关问题总结">
 <meta name="twitter:description" content="ListView 优化最近在做项目过程中频繁使用列表，今天抽空总结下过程中遇到的问题，下面会有具体对应的解决办法；  1.listView 外套一层ScrollView 的问题，就是listView 只显示一行或者两行， 我发现这个问题在 RecycleView 上也存在， 在RecycleView外套一层 ScrollView也会出现只显示一行的问题，滑动只能在 一行的高度内滑动。这问题下面有具">
@@ -401,7 +401,7 @@
                 
               
 
-              <time title="创建时间：2019-08-11 10:56:37 / 修改时间：16:53:22" itemprop="dateCreated datePublished" datetime="2019-08-11T10:56:37+08:00">2019-08-11</time>
+              <time title="创建时间：2019-08-11 10:56:37 / 修改时间：16:55:49" itemprop="dateCreated datePublished" datetime="2019-08-11T10:56:37+08:00">2019-08-11</time>
             
 
             
@@ -495,18 +495,9 @@
         <h2 id="ListView-优化"><a href="#ListView-优化" class="headerlink" title="ListView 优化"></a>ListView 优化</h2><p>最近在做项目过程中频繁使用列表，今天抽空总结下过程中遇到的问题，下面会有具体对应的解决办法；</p>
 <ul>
 <li>1.listView 外套一层ScrollView 的问题，就是listView 只显示一行或者两行， 我发现这个问题在 <strong>RecycleView 上也存在</strong>， 在RecycleView外套一层 ScrollView也会出现只显示一行的问题，滑动只能在 一行的高度内滑动。这问题下面有具体解决方案，说下我是怎么解决的吧，因为我要实现的是9宫格的图片展示，本来是用的RecycleView 来实现的，出现了这个问题，我就尝试把recyclerView 换成了GridView 了，因为GridView 本身就支持多行展示，发现就没有这个问题了，套了ScrollView 也正常展示；</li>
-<li><ol start="2">
-<li>也是listView 在嵌套ScrollView 中的问题，在某款三星手机上，这个手机的虚拟按键，可以锁定和解锁定， 发现在切换锁定和解锁定中，会导致原来的多行的图片变成单行， 在别的手机上就没有这个问题， 这个奇怪的现象，最终还是以GridView 替换掉listView 解决的。</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>listView 添加 headerView的问题， 需要注意的是 添加进去的 HeaderView 就占据了第0位，所以在使用的 onItemClick 的时候，需要-1， addfooterView的时候可以用 view.getFooterViewsCount() 是否等于0来判断，避免多次添加。</li>
-</ol>
-</li>
-<li><ol start="4">
-<li>由于listView 会复用viewHolder ，所以我们在getView 中 显示隐藏的设置一定要配套使用，if里有显示，在else 中就要 隐藏。</li>
-</ol>
-</li>
+<li>2.也是listView 在嵌套ScrollView 中的问题，在某款三星手机上，这个手机的虚拟按键，可以锁定和解锁定， 发现在切换锁定和解锁定中，会导致原来的多行的图片变成单行， 在别的手机上就没有这个问题， 这个奇怪的现象，最终还是以GridView 替换掉listView 解决的。</li>
+<li>3.listView 添加 headerView的问题， 需要注意的是 添加进去的 HeaderView 就占据了第0位，所以在使用的 onItemClick 的时候，需要-1， addfooterView的时候可以用 view.getFooterViewsCount() 是否等于0来判断，避免多次添加。</li>
+<li>4.由于listView 会复用viewHolder ，所以我们在getView 中 显示隐藏的设置一定要配套使用，if里有显示，在else 中就要 隐藏。</li>
 </ul>
 <h3 id="优化步骤："><a href="#优化步骤：" class="headerlink" title="优化步骤："></a>优化步骤：</h3><h4 id="使用-RecycleView-代替listview"><a href="#使用-RecycleView-代替listview" class="headerlink" title="使用 RecycleView 代替listview"></a>使用 RecycleView 代替listview</h4><ul>
 <li>1.重用ConvertView;</li>
