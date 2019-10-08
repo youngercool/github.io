@@ -213,11 +213,11 @@
     </summary>
     
     
-      <category term="hexo" scheme="http://youngerdev.com/tags/hexo/"/>
-    
       <category term="网站搭建" scheme="http://youngerdev.com/tags/%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA/"/>
     
       <category term="域名购买" scheme="http://youngerdev.com/tags/%E5%9F%9F%E5%90%8D%E8%B4%AD%E4%B9%B0/"/>
+    
+      <category term="hexo" scheme="http://youngerdev.com/tags/hexo/"/>
     
       <category term="github" scheme="http://youngerdev.com/tags/github/"/>
     
