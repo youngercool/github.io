@@ -46,21 +46,21 @@
 
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+<link rel="stylesheet" href="../lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
 
-<link rel="stylesheet" href="/css/main.css?v=7.0.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+<link rel="stylesheet" href="../css/main.css?v=7.0.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon-next.png?v=7.0.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32-next.png?v=7.0.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="../images/logo.svg?v=7.0.0" color="#222">
 
 
 
@@ -97,7 +97,7 @@
 
 
   <meta name="description" content="接上篇的 Volley 源码解析，目前项目中更多的用到的是 OkHttpUtils 和 OkHttp 所以有必要了解它的原理，以便遇到网络相关的问题时，可以及时的定位并解决问题，下面就开始吧。 本文的目录大致是这样：  OkHttp 的基本使用 OkHttp 的源码解析（V3.5.0） OkHttp 连接池复用 OkHttp 的优缺点  OkHttp 的基本使用在 gradle 中添加依赖 1co">
-<meta name="keywords" content="源码,OkHttp源码,OkHttpUtils源码,源码解析,Android 源码,网络请求,Android网络">
+<meta name="keywords" content="源码,网络请求,Android网络,OkHttp源码,OkHttpUtils源码,源码解析,Android 源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OkHttp 源码解析">
 <meta property="og:url" content="http://youngerdev.com/OkHttp-源码解析.html">
@@ -105,7 +105,7 @@
 <meta property="og:description" content="接上篇的 Volley 源码解析，目前项目中更多的用到的是 OkHttpUtils 和 OkHttp 所以有必要了解它的原理，以便遇到网络相关的问题时，可以及时的定位并解决问题，下面就开始吧。 本文的目录大致是这样：  OkHttp 的基本使用 OkHttp 的源码解析（V3.5.0） OkHttp 连接池复用 OkHttp 的优缺点  OkHttp 的基本使用在 gradle 中添加依赖 1co">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://youngerdev.com/okhttp_interceptors.png">
-<meta property="og:updated_time" content="2019-10-20T06:35:18.649Z">
+<meta property="og:updated_time" content="2019-10-20T06:43:20.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OkHttp 源码解析">
 <meta name="twitter:description" content="接上篇的 Volley 源码解析，目前项目中更多的用到的是 OkHttpUtils 和 OkHttp 所以有必要了解它的原理，以便遇到网络相关的问题时，可以及时的定位并解决问题，下面就开始吧。 本文的目录大致是这样：  OkHttp 的基本使用 OkHttp 的源码解析（V3.5.0） OkHttp 连接池复用 OkHttp 的优缺点  OkHttp 的基本使用在 gradle 中添加依赖 1co">
@@ -113,7 +113,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Younger的个人站点" type="application/atom+xml">
+  <link rel="alternate" href="atom.xml" title="Younger的个人站点" type="application/atom+xml">
 
 
 
@@ -245,7 +245,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -262,7 +262,7 @@
 
     
 
-    <a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="tags" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -279,7 +279,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://youngerdev.com/OkHttp-源码解析.html">
+    <link itemprop="mainEntityOfPage" href="http://youngerdev.com">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Younger">
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-20 14:35:18" itemprop="dateModified" datetime="2019-10-20T14:35:18+08:00">2019-10-20</time>
+                <time title="修改时间：2019-10-20 14:43:20" itemprop="dateModified" datetime="2019-10-20T14:43:20+08:00">2019-10-20</time>
               
             
           </span>
@@ -438,8 +438,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/OkHttp-源码解析.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/OkHttp-源码解析.html" itemprop="commentCount"></span>
+                <a href="#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -447,7 +447,7 @@
 
           
           
-            <span id="/OkHttp-源码解析.html" class="leancloud_visitors" data-flag-title="OkHttp 源码解析">
+            <span id class="leancloud_visitors" data-flag-title="OkHttp 源码解析">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -675,19 +675,19 @@
       
         <div class="post-tags">
           
-            <a href="/tags/源码/" rel="tag"># 源码</a>
+            <a href="tags/源码/" rel="tag"># 源码</a>
           
-            <a href="/tags/OkHttp源码/" rel="tag"># OkHttp源码</a>
+            <a href="tags/网络请求/" rel="tag"># 网络请求</a>
           
-            <a href="/tags/OkHttpUtils源码/" rel="tag"># OkHttpUtils源码</a>
+            <a href="tags/Android网络/" rel="tag"># Android网络</a>
           
-            <a href="/tags/源码解析/" rel="tag"># 源码解析</a>
+            <a href="tags/OkHttp源码/" rel="tag"># OkHttp源码</a>
           
-            <a href="/tags/Android-源码/" rel="tag"># Android 源码</a>
+            <a href="tags/OkHttpUtils源码/" rel="tag"># OkHttpUtils源码</a>
           
-            <a href="/tags/网络请求/" rel="tag"># 网络请求</a>
+            <a href="tags/源码解析/" rel="tag"># 源码解析</a>
           
-            <a href="/tags/Android网络/" rel="tag"># Android网络</a>
+            <a href="tags/Android-源码/" rel="tag"># Android 源码</a>
           
         </div>
       
@@ -703,7 +703,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Volley-源码解析.html" rel="next" title="Volley 源码解析">
+              <a href="Volley-源码解析.html" rel="next" title="Volley 源码解析">
                 <i class="fa fa-chevron-left"></i> Volley 源码解析
               </a>
             
@@ -713,7 +713,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/OkHttpUtils-源码解析.html" rel="prev" title="OkHttpUtils 源码解析">
+              <a href="OkHttpUtils-源码解析.html" rel="prev" title="OkHttpUtils 源码解析">
                 OkHttpUtils 源码解析 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -805,7 +805,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
+                  <a href="tags/index.html">
                     
                     
                       
@@ -880,7 +880,7 @@
 
           
             <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
+              <a href="atom.xml" rel="alternate">
                 <i class="fa fa-rss"></i>
                 RSS
               </a>
@@ -1053,45 +1053,45 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  <script src="lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="lib/velocity/velocity.min.js?v=1.2.1"></script>
 
   
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/src/utils.js?v=7.0.0"></script>
-
-  <script src="/js/src/motion.js?v=7.0.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/src/affix.js?v=7.0.0"></script>
-
-  <script src="/js/src/schemes/pisces.js?v=7.0.0"></script>
-
-
-
-
-  
-  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
-<script src="/js/src/post-details.js?v=7.0.0"></script>
-
+  <script src="lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
 
   
 
 
-  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+  <script src="js/src/utils.js?v=7.0.0"></script>
+
+  <script src="js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="js/src/affix.js?v=7.0.0"></script>
+
+  <script src="js/src/schemes/pisces.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="js/src/scrollspy.js?v=7.0.0"></script>
+<script src="js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="js/src/bootstrap.js?v=7.0.0"></script>
 
 
 
