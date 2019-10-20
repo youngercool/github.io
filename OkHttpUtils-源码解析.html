@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":20,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="接上篇的 OkHttp 源码解析，目前项目中更多的用到的是 OkHttpUtils和 OkHttp 所以有必要了解它的原理，以便遇到网络相关的问题时，可以及时的定位并解决问题，关于 OkHttp 源码相关的内容请看上篇， 请在阅读过上篇的基础上来看这篇会更好的理解，下面就开始吧。 OkHttpUtils 项目 本文的目录大致是这样：  OkHttpUtils 简单使用 OkHttpUtils 源码">
+<meta name="keywords" content="源码,OkHttp源码,OkHttpUtils源码,源码解析,Android 源码,网络请求,Android网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OkHttpUtils 源码解析">
+<meta property="og:url" content="http://youngerdev.com/OkHttpUtils-源码解析.html">
+<meta property="og:site_name" content="Younger的个人站点">
+<meta property="og:description" content="接上篇的 OkHttp 源码解析，目前项目中更多的用到的是 OkHttpUtils和 OkHttp 所以有必要了解它的原理，以便遇到网络相关的问题时，可以及时的定位并解决问题，关于 OkHttp 源码相关的内容请看上篇， 请在阅读过上篇的基础上来看这篇会更好的理解，下面就开始吧。 OkHttpUtils 项目 本文的目录大致是这样：  OkHttpUtils 简单使用 OkHttpUtils 源码">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-20T05:56:25.916Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OkHttpUtils 源码解析">
+<meta name="twitter:description" content="接上篇的 OkHttp 源码解析，目前项目中更多的用到的是 OkHttpUtils和 OkHttp 所以有必要了解它的原理，以便遇到网络相关的问题时，可以及时的定位并解决问题，关于 OkHttp 源码相关的内容请看上篇， 请在阅读过上篇的基础上来看这篇会更好的理解，下面就开始吧。 OkHttpUtils 项目 本文的目录大致是这样：  OkHttpUtils 简单使用 OkHttpUtils 源码">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Younger的个人站点" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://youngerdev.com/OkHttpUtils-源码解析.html">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>OkHttpUtils 源码解析 | Younger的个人站点</title>
+  
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId  : '',
+        xfbml  : true,
+        version: 'v2.10'
+      });
+    };
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/zh_CN/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Younger的个人站点</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">不正经码农</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://youngerdev.com/OkHttpUtils-源码解析.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Younger">
+      <meta itemprop="description" content="Android开发">
+      <meta itemprop="image" content="/images/toux.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Younger的个人站点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">OkHttpUtils 源码解析
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-20 13:51:35 / 修改时间：13:56:25" itemprop="dateCreated datePublished" datetime="2019-10-20T13:51:35+08:00">2019-10-20</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/OkHttpUtils-源码解析.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/OkHttpUtils-源码解析.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/OkHttpUtils-源码解析.html" class="leancloud_visitors" data-flag-title="OkHttpUtils 源码解析">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                <span title="本文字数">47k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                <span title="阅读时长">43 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>接上篇的 <a href="https://youngerdev.com/OkHttp-源码解析.html">OkHttp 源码解析</a>，目前项目中更多的用到的是 OkHttpUtils和 OkHttp 所以有必要了解它的原理，以便遇到网络相关的问题时，可以及时的定位并解决问题，关于 OkHttp 源码相关的内容请看上篇， 请在阅读过上篇的基础上来看这篇会更好的理解，下面就开始吧。</p>
+<p><a href="https://github.com/hongyangAndroid/okhttputils" target="_blank" rel="noopener">OkHttpUtils 项目</a></p>
+<p>本文的目录大致是这样：</p>
+<ul>
+<li>OkHttpUtils 简单使用</li>
+<li>OkHttpUtils 源码解析（V2.6.2）</li>
+<li>OkHttp 和OkHttp 的对比</li>
+</ul>
+<h3 id="OkHttpUtils-简单使用"><a href="#OkHttpUtils-简单使用" class="headerlink" title="OkHttpUtils 简单使用"></a>OkHttpUtils 简单使用</h3><p>首先要在 gradle 中加上</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'com.zhy:okhttputils:2.6.2'</span></span><br></pre></td></tr></table></figure>
+<p>将直接使用okhttp默认的配置生成OkhttpClient，如果你有任何配置，记得在Application中调用initClient方法进行设置。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span></span></span><br><span class="line"><span class="class"></span>&#123;	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">    public void onCreate()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line"></span><br><span class="line">        <span class="type">OkHttpClient</span> okHttpClient = <span class="keyword">new</span> <span class="type">OkHttpClient</span>.<span class="type">Builder</span>()</span><br><span class="line"><span class="comment">//                .addInterceptor(new LoggerInterceptor("TAG"))</span></span><br><span class="line">                  .connectTimeout(<span class="number">10000</span>L, <span class="type">TimeUnit</span>.<span class="type">MILLISECONDS</span>)</span><br><span class="line">                  .readTimeout(<span class="number">10000</span>L, <span class="type">TimeUnit</span>.<span class="type">MILLISECONDS</span>)</span><br><span class="line">                  <span class="comment">//其他配置</span></span><br><span class="line">                 .build();</span><br><span class="line">                 </span><br><span class="line">        <span class="type">OkHttpUtils</span>.initClient(okHttpClient);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在具体的使用过程中</p>
+<p>GET 请求</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> url = <span class="string">"http://www.csdn.net/"</span>;</span><br><span class="line">OkHttpUtils</span><br><span class="line">    .<span class="keyword">get</span>()</span><br><span class="line">    .url(url)</span><br><span class="line">    .addParams(<span class="string">"username"</span>, <span class="string">"hyman"</span>)</span><br><span class="line">    .addParams(<span class="string">"password"</span>, <span class="string">"123"</span>)</span><br><span class="line">    .build()</span><br><span class="line">    .<span class="keyword">execute</span>(<span class="keyword">new</span> StringCallback()</span><br><span class="line">	        &#123;</span><br><span class="line">	            @Override</span><br><span class="line">	            <span class="keyword">public</span> void onError(<span class="built_in">Request</span> <span class="built_in">request</span>, Exception e)</span><br><span class="line">	            &#123;</span><br><span class="line">	                </span><br><span class="line">	            &#125;</span><br><span class="line">	</span><br><span class="line">	            @Override</span><br><span class="line">	            <span class="keyword">public</span> void onResponse(<span class="built_in">String</span> <span class="built_in">response</span>)</span><br><span class="line">	            &#123;</span><br><span class="line">	</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;);</span><br></pre></td></tr></table></figure>
+<p>Post JSON</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">OkHttpUtils</span><br><span class="line">  .postString()</span><br><span class="line">  .url(url)</span><br><span class="line">  .content(<span class="keyword">new</span> <span class="type">Gson</span>().toJson(<span class="keyword">new</span> <span class="type">User</span>(<span class="string">"zhy"</span>, <span class="string">"123"</span>)))</span><br><span class="line">   .mediaType(MediaType.parse(<span class="string">"application/json; charset=utf-8"</span>))</span><br><span class="line">  .build()</span><br><span class="line">  .execute(<span class="keyword">new</span> <span class="type">MyStringCallback</span>());</span><br></pre></td></tr></table></figure>
+<p>能看出常用的GET ，POST 请求写起来非常简单流畅， 并且网络回调直接到主线程中了，可以直接处理数据。</p>
+<h3 id="OkHttpUtils-源码解析"><a href="#OkHttpUtils-源码解析" class="headerlink" title="OkHttpUtils 源码解析"></a>OkHttpUtils 源码解析</h3><p>我们通过这个get 请求，进去到源码中看下是如何封装的。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">OkHttpUtils</span><span class="selector-class">.get</span>()<span class="selector-class">.url</span>(<span class="string">"http://www.baidu.com"</span>)<span class="selector-class">.build</span>()<span class="selector-class">.execute</span>(new com.zhy.http.okhttp.callback.Callback() &#123;</span><br><span class="line">           <span class="variable">@Override</span></span><br><span class="line">           public Object parseNetworkResponse(Response response, int id) throws Exception &#123;</span><br><span class="line">               <span class="selector-tag">return</span> <span class="selector-tag">null</span>;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           @<span class="selector-tag">Override</span></span><br><span class="line">           <span class="selector-tag">public</span> <span class="selector-tag">void</span> <span class="selector-tag">onError</span>(Call call, Exception e, int id) &#123;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="variable">@Override</span></span><br><span class="line">           public void onResponse(Object response, int id) &#123;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="OkHttpUtils"><a href="#OkHttpUtils" class="headerlink" title="OkHttpUtils"></a>OkHttpUtils</h4><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> DEFAULT_MILLISECONDS = <span class="number">10</span>_000L;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> OkHttpUtils mInstance;</span><br><span class="line">    <span class="keyword">private</span> OkHttpClient mOkHttpClient;</span><br><span class="line">    <span class="keyword">private</span> Platform mPlatform;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> OkHttpUtils(OkHttpClient okHttpClient)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (okHttpClient == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            mOkHttpClient = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            mOkHttpClient = okHttpClient;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mPlatform = Platform.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> OkHttpUtils initClient(OkHttpClient okHttpClient)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (OkHttpUtils.class)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    mInstance = <span class="keyword">new</span> OkHttpUtils(okHttpClient);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> OkHttpUtils getInstance()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">return</span> <span class="title">initClient</span><span class="params">(<span class="keyword">null</span>)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Executor getDelivery()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">return</span> mPlatform.<span class="title">defaultCallbackExecutor</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> OkHttpClient getOkHttpClient()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> mOkHttpClient;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> GetBuilder get()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> GetBuilder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> PostStringBuilder postString()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PostStringBuilder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> PostFileBuilder postFile()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PostFileBuilder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> PostFormBuilder post()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PostFormBuilder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> OtherRequestBuilder put()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OtherRequestBuilder(METHOD.PUT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> HeadBuilder head()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HeadBuilder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> OtherRequestBuilder delete()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OtherRequestBuilder(METHOD.DELETE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> OtherRequestBuilder patch()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OtherRequestBuilder(METHOD.PATCH);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>根据代码 能看出 OkHttpUtils 做了双重锁定的单例处理，因为一个App有一个 OkHttpClient 对象就行了。new 出了一个 OkHttpClient 。 </p>
+<p>我们在Application中初始化后，就生成这样一个对象， 以后每次用的时候就取得这个，无需重复创建。</p>
+<p>实例化 OkHttpUtils 时 会创建 mPlatform = Platform.get() 。我们看下这是什么。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Platform PLATFORM = findPlatform();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Platform get()</span><br><span class="line">&#123;</span><br><span class="line">    L.e(PLATFORM.getClass().toString());</span><br><span class="line">    <span class="keyword">return</span> PLATFORM;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Platform findPlatform()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        Class.forName(<span class="string">"android.os.Build"</span>);</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Android();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ClassNotFoundException ignored)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Platform();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Android</span> <span class="keyword">extends</span> <span class="title">Platform</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Executor defaultCallbackExecutor()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MainThreadExecutor();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MainThreadExecutor</span> <span class="keyword">implements</span> <span class="title">Executor</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Handler <span class="keyword">handler</span> = <span class="keyword">new</span> Handler(Looper.getMainLooper());</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> execute(Runnable r)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">handler</span>.post(r);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此外在OkHttpUtils的结构中可以注意到有一个mPlatform的变量，他会根据当前是Android还是其他平台的不同被初始化为Android主线程或者普通线程池。</p>
+<p>当是 Android 系统，new 了一个Android ，里面一个内部类，实现了 Executor， 创建了一个 handler 传入 Looper.getMainLooper() 主线程的 Looper，线程池执行时在这把可执行的 runnable 发送到主线程， 然后执行，就实现了线程切换。</p>
+<p>它的功能就是实现线程之间的切换的。</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//GetRequest</span></span><br><span class="line">  @Override</span><br><span class="line">    public RequestCall build()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (params != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">url</span> = appendParams(<span class="built_in">url</span>, params);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> GetRequest(<span class="built_in">url</span>, tag, params, headers,id).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//postString</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> PostStringBuilder();</span><br><span class="line"></span><br><span class="line">public class PostStringBuilder extends OkHttpRequestBuilder&lt;PostStringBuilder&gt;</span><br><span class="line">&#123;</span><br><span class="line">    private <span class="built_in">String</span> content;</span><br><span class="line">    private MediaType mediaType;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public PostStringBuilder content(<span class="built_in">String</span> content)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public PostStringBuilder mediaType(MediaType mediaType)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.mediaType = mediaType;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public RequestCall build()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PostStringRequest(<span class="built_in">url</span>, tag, params, headers, content, mediaType,id).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">当我们调用build 方法时做了什么操作呢 </span><br><span class="line">    public PostStringRequest(<span class="built_in">String</span> <span class="built_in">url</span>, <span class="built_in">Object</span> tag, <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; params, <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; headers, <span class="built_in">String</span> content, MediaType mediaType,<span class="built_in">int</span> id)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">super</span>(<span class="built_in">url</span>, tag, params, headers,id);</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">        <span class="keyword">this</span>.mediaType = mediaType;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.content == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Exceptions.illegalArgument(<span class="string">"the content can not be null !"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.mediaType == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">this</span>.mediaType = MEDIA_TYPE_PLAIN;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">把我们设置的参数传递过来， 比如我们经常用的 mediaType 和 content 组装起来， </span><br><span class="line">在执行网络请求的时候会把这些参数按照需要配置好，传入。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//OkHttpRequest</span></span><br><span class="line"></span><br><span class="line">    protected Request.Builder builder = <span class="keyword">new</span> Request.Builder();</span><br><span class="line"></span><br><span class="line">    protected OkHttpRequest(<span class="built_in">String</span> <span class="built_in">url</span>, <span class="built_in">Object</span> tag,</span><br><span class="line">                            <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; params, <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; headers,<span class="built_in">int</span> id)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.url = <span class="built_in">url</span>;</span><br><span class="line">        <span class="keyword">this</span>.tag = tag;</span><br><span class="line">        <span class="keyword">this</span>.params = params;</span><br><span class="line">        <span class="keyword">this</span>.headers = headers;</span><br><span class="line">        <span class="keyword">this</span>.id = id ;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">url</span> == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Exceptions.illegalArgument(<span class="string">"url can not be null."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        initBuilder();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>使用 get请求 new GetBuilder() 创建了一个继承 OkHttpRequest 的 GetRequest，配置需要的参数。</p>
+<h4 id="执行网络请求-execute"><a href="#执行网络请求-execute" class="headerlink" title="执行网络请求 execute"></a>执行网络请求 execute</h4><p>然后 看下 execute 的具体内容</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> execute(Callback callback)</span><br><span class="line">    &#123;</span><br><span class="line">        buildCall(callback);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (callback != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            callback.onBefore(request, getOkHttpRequest().getId());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        OkHttpUtils.getInstance().execute(<span class="keyword">this</span>, callback);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">接着看 execute 的内容</span><br><span class="line">可以看其最后只是将RequestCall和callback传递给了OkHttpUtils类的execute方法，</span><br><span class="line">也就是说，最终还是调用了okhttp3.<span class="keyword">Call</span>的enqueue()方法，在这里执行了真正的网络请求：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> execute(<span class="keyword">final</span> RequestCall requestCall, Callback callback)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (callback == <span class="keyword">null</span>)</span><br><span class="line">            callback = Callback.CALLBACK_DEFAULT;</span><br><span class="line">          <span class="comment">//如果没有写回调，给了一个默认的</span></span><br><span class="line">        <span class="keyword">final</span> Callback finalCallback = callback;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> id = requestCall.getOkHttpRequest().getId();</span><br><span class="line"></span><br><span class="line">		<span class="comment">//requestCall.getCall() 调用了 enqueue进行网络请求，你肯定能猜出来 requestCall.getCall()的内容， </span></span><br><span class="line">		<span class="comment">//看下面吧， 我贴出来了，就是 返回了一个OkHttpClient创建的call。</span></span><br><span class="line">        requestCall.getCall().enqueue(<span class="keyword">new</span> okhttp3.Callback()</span><br><span class="line">        &#123;</span><br><span class="line">            @Override</span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> onFailure(<span class="keyword">Call</span> <span class="keyword">call</span>, <span class="keyword">final</span> IOException e)</span><br><span class="line">            &#123;</span><br><span class="line">                sendFailResultCallback(<span class="keyword">call</span>, e, finalCallback, id);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> onResponse(<span class="keyword">final</span> <span class="keyword">Call</span> <span class="keyword">call</span>, <span class="keyword">final</span> Response response)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">try</span></span><br><span class="line">                &#123;</span><br><span class="line">                <span class="comment">//如果请求被取消 就结束</span></span><br><span class="line">                    <span class="keyword">if</span> (<span class="keyword">call</span>.isCanceled())</span><br><span class="line">                    &#123;</span><br><span class="line">                        sendFailResultCallback(<span class="keyword">call</span>, <span class="keyword">new</span> IOException(<span class="string">"Canceled!"</span>), finalCallback, id);</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 可以看到方法中 code码是 【200，300）的算是成功，其他的是失败</span></span><br><span class="line">                    <span class="keyword">if</span> (!finalCallback.validateReponse(response, id))</span><br><span class="line">                    &#123;</span><br><span class="line">                        sendFailResultCallback(<span class="keyword">call</span>, <span class="keyword">new</span> IOException(<span class="string">"request failed , reponse's code is : "</span> + response.code()), finalCallback, id);</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    Object o = finalCallback.parseNetworkResponse(response, id);</span><br><span class="line">                    sendSuccessResultCallback(o, finalCallback, id);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e)</span><br><span class="line">                &#123;</span><br><span class="line">                    sendFailResultCallback(<span class="keyword">call</span>, e, finalCallback, id);</span><br><span class="line">                &#125; <span class="keyword">finally</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (response.body() != <span class="keyword">null</span>)</span><br><span class="line">                        response.body().close();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attribute">public</span> Call buildCall(Callback callback)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">request</span> = generateRequest(callback);</span><br><span class="line"></span><br><span class="line">    <span class="attribute">if</span> (readTimeOut &gt; <span class="number">0</span> || writeTimeOut &gt; <span class="number">0</span> || connTimeOut &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attribute">readTimeOut</span> = readTimeOut &gt; <span class="number">0</span> ? readTimeOut : OkHttpUtils.DEFAULT_MILLISECONDS;</span><br><span class="line">        <span class="attribute">writeTimeOut</span> = writeTimeOut &gt; <span class="number">0</span> ? writeTimeOut : OkHttpUtils.DEFAULT_MILLISECONDS;</span><br><span class="line">        <span class="attribute">connTimeOut</span> = connTimeOut &gt; <span class="number">0</span> ? connTimeOut : OkHttpUtils.DEFAULT_MILLISECONDS;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">clone</span> = OkHttpUtils.getInstance().getOkHttpClient().newBuilder()</span><br><span class="line">                .readTimeout(readTimeOut, TimeUnit.MILLISECONDS)</span><br><span class="line">                .writeTimeout(writeTimeOut, TimeUnit.MILLISECONDS)</span><br><span class="line">                .connectTimeout(connTimeOut, TimeUnit.MILLISECONDS)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        <span class="attribute">call</span> = clone.newCall(request);</span><br><span class="line">    &#125; else</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attribute">call</span> = OkHttpUtils.getInstance().getOkHttpClient().newCall(request);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">return</span> call;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来看看处理返回成功的回调方法</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> sendSuccessResultCallback(<span class="keyword">final</span> Object object, <span class="keyword">final</span> Callback callback, <span class="keyword">final</span> <span class="keyword">int</span> id)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (callback == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    mPlatform.execute(<span class="keyword">new</span> Runnable()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> run()</span><br><span class="line">        &#123;</span><br><span class="line">            callback.onResponse(object, id);</span><br><span class="line">            callback.onAfter(id);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是不是有点眼熟 mPlatform 其实就是上面的那个 Android ， 把这个 runnable 发送到主线程。</p>
+<p>在本文中，okhttputils将初始化OkHttpClient的动作提取出来，这样同一个应用只需要在最开始的时候配置一下诸如网络超时、cookie等既可。</p>
+<p>在具体的实现中，通过OkHttpRequestBuilder收集网络请求的属性并传递给OkHttpRequest，在其子类中按照不同的需要实现生成Request的方法。</p>
+<p>OkHttpRequestBuilder的build()方法会生成RequestCall对象，RequestCall对象的execute()方法会调用OkHttpRequestBuilder对象的generateRequest()方法产生Request，并据此产生Call对象，最后通过该Call对象的enqueue方法执行网络请求。</p>
+<p>至此 OkHttpUtils 的源码分析完成了，其实代码相对简单，就是对 OkHttp 的一个封装， 少写了一些代码， 把常用的 get ， post ，postString，postFile，head，put， delete 都进行了一个封装，调用起来非常方便。</p>
+<p>并且网络请求的返回内容也回调到主线程，方便进行 UI 操作，</p>
+<p>这也解决了上一个篇文章中说的 OkHttp 的两个缺点。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请联系我！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById(&quot;QR&quot;); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Younger 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Younger 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/源码/" rel="tag"># 源码</a>
+          
+            <a href="/tags/OkHttp源码/" rel="tag"># OkHttp源码</a>
+          
+            <a href="/tags/OkHttpUtils源码/" rel="tag"># OkHttpUtils源码</a>
+          
+            <a href="/tags/源码解析/" rel="tag"># 源码解析</a>
+          
+            <a href="/tags/Android-源码/" rel="tag"># Android 源码</a>
+          
+            <a href="/tags/网络请求/" rel="tag"># 网络请求</a>
+          
+            <a href="/tags/Android网络/" rel="tag"># Android网络</a>
+          
+        </div>
+      
+      
+        
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/OkHttp-源码解析.html" rel="next" title="OkHttp 源码解析">
+                <i class="fa fa-chevron-left"></i> OkHttp 源码解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/toux.jpg" alt="Younger">
+            
+              <p class="site-author-name" itemprop="name">Younger</p>
+              <p class="site-description motion-element" itemprop="description">Android开发</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                  <a href="https://www.jianshu.com/u/a1251e598483" title="我的  简书 &rarr; https://www.jianshu.com/u/a1251e598483" rel="noopener" target="_blank">我的  简书</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OkHttpUtils-简单使用"><span class="nav-number">1.</span> <span class="nav-text">OkHttpUtils 简单使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OkHttpUtils-源码解析"><span class="nav-number">2.</span> <span class="nav-text">OkHttpUtils 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OkHttpUtils"><span class="nav-number">2.1.</span> <span class="nav-text">OkHttpUtils</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行网络请求-execute"><span class="nav-number">2.2.</span> <span class="nav-text">执行网络请求 execute</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Younger</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">91k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">1:23</span>
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.0</div>
+
+
+
+
+        
+
+
+
+
+  <script>
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66182347";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'b46mgRyg76mHG8YKj2V8zdow-gzGzoHsz',
+    appKey: 'VsAn8tOlQKbWCfvs6R4XoFly',
+    placeholder: '请输入您的留言',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+</script>
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+
+
+</body>
+</html>
